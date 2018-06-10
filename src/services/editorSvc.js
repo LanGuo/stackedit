@@ -156,8 +156,10 @@ const editorSvc = Object.assign(new Vue(), editorSvcDiscussions, editorSvcUtils,
           this.tocElt.removeChild(sectionTocElt);
         } else if (item[0] === 1) {
           let html = htmlSanitizer.sanitizeHtml(this.conversionCtx.htmlSectionList[sectionIdx]);
-          console.log('Inside refreshPreview() upon markdown insertion. Making all html h1 headings.');
-          html = `<h1>${html}</h1>`;
+          console.log('in refreshPreview, upon insertion replacing html with markdown text');
+          const perSectionMarkdownSource = this.conversionCtx.sectionList[sectionIdx].text;
+          html = `<h1>We will soon be Smartdowning the following per-section Markdown:</h1>
+            <pre>${perSectionMarkdownSource}</pre>`;
           sectionIdx += 1;
 
           // Create preview section element
