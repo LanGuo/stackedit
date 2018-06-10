@@ -155,7 +155,9 @@ const editorSvc = Object.assign(new Vue(), editorSvcDiscussions, editorSvcUtils,
           insertBeforeTocElt = insertBeforeTocElt.nextSibling;
           this.tocElt.removeChild(sectionTocElt);
         } else if (item[0] === 1) {
-          const html = htmlSanitizer.sanitizeHtml(this.conversionCtx.htmlSectionList[sectionIdx]);
+          let html = htmlSanitizer.sanitizeHtml(this.conversionCtx.htmlSectionList[sectionIdx]);
+          console.log('Inside refreshPreview() upon markdown insertion. Making all html h1 headings.');
+          html = `<h1>${html}</h1>`;
           sectionIdx += 1;
 
           // Create preview section element
