@@ -39,9 +39,25 @@ if (localStorage.updated) {
 
 Vue.config.productionTip = false;
 
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  store,
-  render: h => h(App),
-});
+const baseURL = 'https://smartdown.site/';
+const svgIcons = {};
+
+const cardLoader = null;
+
+function smartdownLoaded() {
+  /* eslint-disable no-new */
+  console.log('smartdownLoaded.');
+  const app = new Vue({
+    el: '#app',
+    store,
+    render: h => h(App),
+  });
+  console.log('Created Vue app:', app);
+}
+
+const calcHandlers = null;
+const linkRules = [];
+
+/* global smartdown */
+smartdown.initialize(svgIcons, baseURL, smartdownLoaded, cardLoader, calcHandlers, linkRules);
+

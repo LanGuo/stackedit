@@ -130,6 +130,13 @@ const editorSvc = Object.assign(new Vue(), editorSvcDiscussions, editorSvcUtils,
     let insertBeforeTocElt = this.tocElt.firstChild;
     let previewHtml = '';
     let loadingImages = [];
+    /* global smartdown */
+    function setSmartdownCallback(content, div) {
+      console.log(`invoked setSmartdown() with content:${content},
+        div:`, div);
+      // smartdown.startAutoplay(sectionPreviewElt);
+    }
+
     this.conversionCtx.htmlSectionDiff.forEach((item) => {
       for (let i = 0; i < item[1].length; i += 1) {
         const section = this.conversionCtx.sectionList[sectionIdx];
@@ -155,17 +162,21 @@ const editorSvc = Object.assign(new Vue(), editorSvcDiscussions, editorSvcUtils,
           insertBeforeTocElt = insertBeforeTocElt.nextSibling;
           this.tocElt.removeChild(sectionTocElt);
         } else if (item[0] === 1) {
-          let html = htmlSanitizer.sanitizeHtml(this.conversionCtx.htmlSectionList[sectionIdx]);
-          console.log('in refreshPreview, upon insertion replacing html with markdown text');
+          const html = htmlSanitizer.sanitizeHtml(this.conversionCtx.htmlSectionList[sectionIdx]);
+          // console.log('in refreshPreview, upon insertion replacing html with markdown text');
           const perSectionMarkdownSource = this.conversionCtx.sectionList[sectionIdx].text;
-          html = `<h1>We will soon be Smartdowning the following per-section Markdown:</h1>
-            <pre>${perSectionMarkdownSource}</pre>`;
-          sectionIdx += 1;
-
+          // html = `<h1>We will soon be Smartdowning the following per-section Markdown:</h1>
+          //  <pre>${perSectionMarkdownSource}</pre>`;
           // Create preview section element
           sectionPreviewElt = document.createElement('div');
           sectionPreviewElt.className = 'cl-preview-section';
-          sectionPreviewElt.innerHTML = html;
+          sectionPreviewElt.id = `section${sectionIdx}`;
+          sectionIdx += 1;
+
+          // sectionPreviewElt.innerHTML = html;
+          /* global smartdown */
+          smartdown.setSmartdown(perSectionMarkdownSource, sectionPreviewElt,
+            setSmartdownCallback(perSectionMarkdownSource, sectionPreviewElt));
           if (insertBeforePreviewElt) {
             this.previewElt.insertBefore(sectionPreviewElt, insertBeforePreviewElt);
           } else {
