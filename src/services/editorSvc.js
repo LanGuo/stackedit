@@ -120,6 +120,7 @@ const editorSvc = Object.assign(new Vue(), editorSvcDiscussions, editorSvcUtils,
   /**
    * Refresh the preview with the result of `convert()`
    */
+  /* eslint no-loop-func: 0 */
   refreshPreview() {
     const sectionDescList = [];
     let sectionPreviewElt;
@@ -130,13 +131,14 @@ const editorSvc = Object.assign(new Vue(), editorSvcDiscussions, editorSvcUtils,
     let insertBeforeTocElt = this.tocElt.firstChild;
     let previewHtml = '';
     let loadingImages = [];
-    /* global smartdown */
+
+    /*
     function setSmartdownCallback(content, div) {
       console.log(`invoked setSmartdown() with content:${content},
         div:`, div);
-      // smartdown.startAutoplay(sectionPreviewElt);
+      smartdown.startAutoplay(div);
     }
-
+    */
     this.conversionCtx.htmlSectionDiff.forEach((item) => {
       for (let i = 0; i < item[1].length; i += 1) {
         const section = this.conversionCtx.sectionList[sectionIdx];
@@ -176,7 +178,11 @@ const editorSvc = Object.assign(new Vue(), editorSvcDiscussions, editorSvcUtils,
           // sectionPreviewElt.innerHTML = html;
           /* global smartdown */
           smartdown.setSmartdown(perSectionMarkdownSource, sectionPreviewElt,
-            setSmartdownCallback(perSectionMarkdownSource, sectionPreviewElt));
+            () => {
+              console.log(`invoked setSmartdown() with content:${perSectionMarkdownSource},
+                div:`, sectionPreviewElt);
+              smartdown.startAutoplay(sectionPreviewElt);
+            });
           if (insertBeforePreviewElt) {
             this.previewElt.insertBefore(sectionPreviewElt, insertBeforePreviewElt);
           } else {
