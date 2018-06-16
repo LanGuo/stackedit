@@ -9,6 +9,7 @@ import plainHtmlTemplate from '../data/plainHtmlTemplate.html';
 import styledHtmlTemplate from '../data/styledHtmlTemplate.html';
 import styledHtmlWithTocTemplate from '../data/styledHtmlWithTocTemplate.html';
 import jekyllSiteTemplate from '../data/jekyllSiteTemplate.html';
+import sdHtmlTemplate from '../data/sdHtmlTemplate.html';
 
 const itemTemplate = (id, data = {}) => ({ id, type: 'data', data, hash: 0 });
 
@@ -75,6 +76,7 @@ const additionalTemplates = {
   styledHtml: makeAdditionalTemplate('Styled HTML', styledHtmlTemplate),
   styledHtmlWithToc: makeAdditionalTemplate('Styled HTML with TOC', styledHtmlWithTocTemplate),
   jekyllSite: makeAdditionalTemplate('Jekyll site', jekyllSiteTemplate),
+  smartdownHtml: makeAdditionalTemplate('Smartdown HTML', sdHtmlTemplate),
 };
 
 // For tokens
